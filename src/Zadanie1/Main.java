@@ -13,10 +13,10 @@ public class Main {
         int maxCreationTimeDifference;
         int numberOfProcesses;
 
-        minLength = 1;
-        maxLength = 20;
-        maxCreationTimeDifference = 25;
-        numberOfProcesses = 1000;
+        minLength = 10;
+        maxLength = 50;
+        maxCreationTimeDifference = 60; //processor load
+        numberOfProcesses = 10;
 
         System.out.printf("Simulation for minLength: %d \tmaxLength: %d \tmaxTimeDifference: %d \tnumberOfProcesses: %d\n", minLength, maxLength, maxCreationTimeDifference, numberOfProcesses);
         List<Process> init = generateInitalProcesses(minLength, maxLength, maxCreationTimeDifference, numberOfProcesses);
@@ -24,8 +24,12 @@ public class Main {
         List<Process> listForSJF = copyListOfInitialProcesses(init);
         List<Process> listForRR = copyListOfInitialProcesses(init);
 
-        TimeSimulation FCFSSim = new TimeSimulation(listForFCFS, new AddAtTheEnd());
-        FCFSSim.FCFS();
+        Simulation FCFS = new FCFSSimulation(listForFCFS);
+        Simulation SJF = new SJFSimulation(listForSJF);
+        Simulation RR = new RRSimulation(listForRR, 15);
+//        FCFS.run();
+//        SJF.run();
+        RR.run();
     }
 
     public static List<Process> generateInitalProcesses(int minLength, int maxLength, int maxCreationTimeDifference, int numberOfProcesses) {
@@ -38,10 +42,11 @@ public class Main {
         long creationTime;
 
         //some initial processes
-        initialList.add(new Process(1, minLength, 0));
-        initialList.add(new Process(2, minLength + 1, 0));
-        initialList.add(new Process(3, minLength + 2, 0));
+        initialList.add(new Process(1, 4, 1));
+        initialList.add(new Process(2, 6, 2));
+        initialList.add(new Process(3, 8, 3));
 
+        //creating processes, add gausian?
         for (int i = 0; i < numberOfProcesses; i++) {
             length = random.nextInt(maxLength + 1 - minLength) + minLength;
             creationTime = random.nextInt(maxCreationTimeDifference);

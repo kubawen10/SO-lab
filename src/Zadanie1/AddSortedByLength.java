@@ -21,14 +21,12 @@ public class AddSortedByLength implements AddBehavior {
 
         while (left <= right) {
             middle = (left + right) / 2;
-            System.out.println(middle + " " + left + " " + right);
 
             if (list.get(middle).compareTo(p) < 0) {
                 left = middle + 1;
             } else if (list.get(middle).compareTo(p) > 0) {
                 right = middle - 1;
             } else return findLargestIndexOfSameValue(middle, list);
-            System.out.println(middle + " " + left + " " + right);
         }
         return left;
     }
@@ -36,7 +34,6 @@ public class AddSortedByLength implements AddBehavior {
     @Override
     public void addProcess(List<Process> list, Process p) {
         int index = findIndex(list,p);
-        System.out.println(index);
         list.add(index, p);
     }
 }
