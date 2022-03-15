@@ -8,7 +8,7 @@ public class TimeSimulation {
 
     private long time = 0;
 
-    private int currentProcessToAddIndex = 3;
+    private int currentProcessToAddIndex;
 
     private double sumTimeCreationToFinish = 0;
     private double sumTimeStartToFinish = 0;
@@ -18,8 +18,8 @@ public class TimeSimulation {
     private Process currentServedProcess;
 
     public TimeSimulation(List<Process> processes, AddBehavior ab) {
-        this.ab = ab;
         this.processes = processes;
+        this.ab = ab;
 
         processor = new Processor(ab);
 
@@ -27,10 +27,55 @@ public class TimeSimulation {
         processor.addNewProcess(processes.get(0));
         processor.addNewProcess(processes.get(1));
         processor.addNewProcess(processes.get(2));
+        currentProcessToAddIndex = 3;
 
         //setting first process as currently served
         currentServedProcess = processor.getProcess(0);
         currentServedProcess.setStartTime(time);
+    }
+
+    public void FCFS() {
+        //1 time unit
+        while (currentProcessToAddIndex < processes.size() || processor.getQueueSize() > 0) {
+            //adding new processes to queue
+            addNewProcesses();
+
+
+            //decreasing currentServedProcesses length and saving data if necessary
+            if (currentServedProcess.getLength() >= 1) {
+                currentServedProcess.serveProcess(time);
+            } else if (currentServedProcess.getLength() == 0) {
+                //saving max wait time
+                currentServedProcess.serveProcess(time);
+                if (currentServedProcess.getStartTime() - currentServedProcess.getCreationTime() > maxWaitTime) {
+                    maxWaitTime = currentServedProcess.getStartTime() - currentServedProcess.getCreationTime();
+                }
+
+                //System.out.println(currentServedProcess + " time from start to finish " + (time - currentServedProcess.getStartTime()));
+
+                sumTimeCreationToFinish += time - currentServedProcess.getCreationTime();
+                sumTimeStartToFinish += time - currentServedProcess.getStartTime();
+                if (processor.getQueueSize() > 1) {
+                    processor.removeProcess(0);
+                    currentServedProcess = processor.getProcess(0);
+                    time += 1;
+                }else {
+                    processor.removeProcess(0);
+                }
+            }
+            else{
+                if (processor.getQueueSize() >= 1) {
+                    currentServedProcess = processor.getProcess(0);
+                    time += 1;
+                }
+            }
+            time+=1;
+        }
+        System.out.println("FCFS:");
+        System.out.println("Max wait time: " + maxWaitTime);
+        System.out.println("Average time start to finish: " + sumTimeStartToFinish / processes.size());
+        System.out.println("Average time Creation to finish: " + sumTimeCreationToFinish / processes.size());
+        System.out.println("Time for everything: " + time);
     }
 
     private void addNewProcesses() {
@@ -38,51 +83,5 @@ public class TimeSimulation {
             processor.addNewProcess(processes.get(currentProcessToAddIndex));
             currentProcessToAddIndex += 1;
         }
-    }
-
-
-    public void FCFS() {
-        //1 time unit
-        while (currentProcessToAddIndex < processes.size() || processor.getQueueSize() > 0) {
-            System.out.println(currentServedProcess + "\t\ttime: " + time + "\t\t");
-            System.out.println(currentProcessToAddIndex);
-            processor.showQueue();
-
-            //adding new processes to queue
-            addNewProcesses();
-
-            //decreasing and saving data
-            if (currentServedProcess.getLength() > 0) {
-                currentServedProcess.decreaseLength();
-                if (currentServedProcess.getLength() == 0) {
-                    //saving max wait time
-                    if (currentServedProcess.getStartTime() - currentServedProcess.getCreationTime() > maxWaitTime) {
-                        maxWaitTime = currentServedProcess.getStartTime() - currentServedProcess.getCreationTime();
-                    }
-
-                    sumTimeCreationToFinish += time - currentServedProcess.getCreationTime();
-                    sumTimeStartToFinish += time - currentServedProcess.getStartTime();
-
-                    if (processor.getQueueSize() > 1) {
-                        processor.removeProcess(0);
-                        currentServedProcess = processor.getProcess(0);
-                        currentServedProcess.setStartTime(time);
-                    }
-                }
-            } else {
-                if (processor.getQueueSize() > 1) {
-                    processor.removeProcess(0);
-                    currentServedProcess = processor.getProcess(0);
-                    currentServedProcess.setStartTime(time);
-                } else if(processor.getQueueSize() == 1) {
-                    processor.removeProcess(0);
-                }
-            }
-            time += 1;
-        }
-        System.out.println("FCFS:");
-        System.out.println("Max wait time: " + maxWaitTime);
-        System.out.println("Average time start to finish: " + sumTimeStartToFinish / processes.size());
-        System.out.println("Average time Creation to finish: " + sumTimeCreationToFinish / processes.size());
     }
 }

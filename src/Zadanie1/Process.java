@@ -13,9 +13,11 @@ public class Process implements Comparable<Process> {
         this.creationTime = creationTime;
     }
 
-    public int decreaseLength() {
-        length -= 1;
-        return length;
+    public void serveProcess(long t) {
+        if(startTime==-1){
+            startTime = t;
+        }
+        length--;
     }
 
     public int getNumber() {

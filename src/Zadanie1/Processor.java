@@ -12,6 +12,10 @@ public class Processor {
         this.ab = ab;
     }
 
+    public void serve(long t, Process p){
+        p.serveProcess(t);
+    }
+
     public Process getProcess(int index){
         return queue.get(index);
     }
