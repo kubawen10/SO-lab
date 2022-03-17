@@ -18,7 +18,6 @@ public class SJFSimulation extends Simulation{
             if (currentServedProcess.getLength() >= 1) {
                 //System.out.println("Serving process: " + currentServedProcess);
                 processor.serve(time, currentServedProcess);
-
             }
             //current process is done
             else if (currentServedProcess.getLength() == 0) {
@@ -37,7 +36,7 @@ public class SJFSimulation extends Simulation{
                     //adding is there not at the beginning of the loop
                     addNewProcesses();
                     currentServedProcess = processor.getProcess(0);
-                    numberOfProcessSwitches+=1;
+                    numberOfProcessSwitches++;
                     //System.out.println("Changing process for " + currentServedProcess);
                 }
                 //there isnt another process in the queue, so make the queue empty to allow while loop exit
@@ -45,6 +44,10 @@ public class SJFSimulation extends Simulation{
                     processor.removeProcess(0);
                     addNewProcesses();
                     //System.out.println("Removing process from queue");
+                    if(processor.getQueueSize()>=1){
+                        currentServedProcess = processor.getProcess(0);
+                        numberOfProcessSwitches++;
+                    }
                 }
 
             }
@@ -53,7 +56,7 @@ public class SJFSimulation extends Simulation{
                 addNewProcesses();
                 if (processor.getQueueSize() >= 1) {
                     currentServedProcess = processor.getProcess(0);
-                    numberOfProcessSwitches+=1;
+                    numberOfProcessSwitches++;
                     //System.out.println("Changing with queue >=1");
                 }
             }

@@ -32,21 +32,21 @@ public class RRSimulation extends Simulation {
                         currentProcessIndex++;
                     }
                     //if this is the last element pick first element in the queue,
-                    //there will always be one because it can still be current process, queue.len=1
+                    //there will always be one because it can still be current process, queue.len=1, count it as switch?
                     else {
                         currentProcessIndex = 0;
                     }
                     i = 0;
                     currentServedProcess = processor.getProcess(currentProcessIndex);
-                    System.out.println("Changing process to: " + currentServedProcess);
+                    //System.out.println("Changing process to: " + currentServedProcess);
                     numberOfProcessSwitches++;
                 } else {
-                    System.out.println("Serving process: " + currentServedProcess);
+                    //System.out.println("Serving process: " + currentServedProcess);
                     processor.serve(time, currentServedProcess);
                     i++;
                 }
             } else if (currentServedProcess.getLength() == 0) {
-                System.out.println("Saving process data: " + currentServedProcess);
+                //System.out.println("Saving process data: " + currentServedProcess);
                 saveValues();
 
                 currentServedProcess.serveProcess(time);
@@ -54,23 +54,22 @@ public class RRSimulation extends Simulation {
                 if (currentProcessIndex + 1 < processor.getQueueSize()) {
                     processor.removeProcess(currentProcessIndex);
                     currentServedProcess = processor.getProcess(currentProcessIndex);
-                    System.out.println("Changing process for " + currentServedProcess);
+                    //System.out.println("Changing process for " + currentServedProcess);
                     numberOfProcessSwitches++;
                 }
                 //queue length will be zero after removing process
                 else {
-
-                    System.out.println("Removing process from queue");
+                    //System.out.println("Removing process from queue");
                     currentProcessIndex=0;
                 }
                 i=0;
             }else{
                 if (processor.getQueueSize() >= 1) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Thread.sleep(200);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
 
                     if(processor.getProcess(0).getLength()==-1){
                         processor.removeProcess(0);
@@ -79,8 +78,8 @@ public class RRSimulation extends Simulation {
 
                     currentServedProcess = processor.getProcess(0);
                     numberOfProcessSwitches++;
-                    System.out.println("Changing with queue >=1");
-                    processor.showQueue();
+                    //System.out.println("Changing with queue >=1");
+                    //processor.showQueue();
                 }
             }
             time++;
@@ -90,5 +89,6 @@ public class RRSimulation extends Simulation {
         time -= 2;
 
         displayData("RR");
+        System.out.println("K: " + K);
     }
 }

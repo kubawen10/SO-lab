@@ -15,6 +15,7 @@ public abstract class Simulation {
     public double sumTimeCreationToStart = 0;
     public double maxWaitTime = 0;
     public double numberOfProcessSwitches = 0;
+    public int numberOfStarvedProcesses = 0;
 
     public final Processor processor;
     public Process currentServedProcess;
@@ -46,6 +47,9 @@ public abstract class Simulation {
         if (currentServedProcess.getStartTime() - currentServedProcess.getCreationTime() > maxWaitTime) {
             maxWaitTime = currentServedProcess.getStartTime() - currentServedProcess.getCreationTime();
         }
+        if(currentServedProcess.getStartTime() - currentServedProcess.getCreationTime()>100000){
+            numberOfStarvedProcesses++;
+        }
 
         sumTimeCreationToFinish += time - currentServedProcess.getCreationTime();
         sumTimeStartToFinish += time - currentServedProcess.getStartTime();
@@ -59,6 +63,7 @@ public abstract class Simulation {
         System.out.println("Average time creation - finish: " + sumTimeCreationToFinish / processes.size());
         System.out.println("Average time creation - start: " + sumTimeCreationToStart / processes.size());
         System.out.println("Number of process switches: " + numberOfProcessSwitches);
+        System.out.println("Number of starved processes: " + numberOfStarvedProcesses);
         System.out.println("Time for everything: " + time);
 
     }

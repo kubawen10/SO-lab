@@ -7,29 +7,61 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        //creating same processes for different algorithms
-        int minLength;
-        int maxLength;
-        int maxCreationTimeDifference;
-        int numberOfProcesses;
+        System.out.println("high processor use, lot of changes for RR");
+        runSimulation(1, 20, 5, 10000, 1);
+        System.out.println("high processor use, medium changes for RR");
+        runSimulation(1, 20, 5, 10000, 5);
+        System.out.println("high processor use,  low changes for RR");
+        runSimulation(1, 20, 5, 10000, 15);
 
-        minLength = 10;
-        maxLength = 50;
-        maxCreationTimeDifference = 60; //processor load
-        numberOfProcesses = 10;
+        System.out.println("medium processor use, lot of changes for RR");
+        runSimulation(1, 20, 15, 10000, 1);
+        System.out.println("medium processor use, medium changes for RR");
+        runSimulation(1, 20, 15, 10000, 5);
+        System.out.println("medium processor use, low changes for RR");
+        runSimulation(1, 20, 15, 10000, 15);
+
+        System.out.println("low processor use, lot of changes for RR");
+        runSimulation(1, 20, 30, 10000, 1);
+        System.out.println("low processor use, medium changes for RR");
+        runSimulation(1, 20, 30, 10000, 5);
+        System.out.println("low processor use, low changes for RR");
+        runSimulation(1, 20, 30, 10000, 15);
+
+        System.out.println("longer processes, high processor use, lot of changes for RR");
+        runSimulation(30, 60, 35, 10000, 30);
+        System.out.println("longer processes, medium processor use, medium changes for RR");
+        runSimulation(30, 60, 50, 10000, 40);
+        System.out.println("longer processes, low processor use, low changes for RR");
+        runSimulation(30, 60, 70, 10000, 50);
+    }
+
+    public static void runSimulation(int minLength, int maxLength, int maxCreationTimeDifference, int numberOfProcesses, int K){
+        List<Process> init;
+        List<Process> listForFCFS;
+        List<Process> listForSJF;
+        List<Process> listForRR;
+
+        Simulation FCFS;
+        Simulation SJF;
+        Simulation RR;
+
 
         System.out.printf("Simulation for minLength: %d \tmaxLength: %d \tmaxTimeDifference: %d \tnumberOfProcesses: %d\n", minLength, maxLength, maxCreationTimeDifference, numberOfProcesses);
-        List<Process> init = generateInitalProcesses(minLength, maxLength, maxCreationTimeDifference, numberOfProcesses);
-        List<Process> listForFCFS = copyListOfInitialProcesses(init);
-        List<Process> listForSJF = copyListOfInitialProcesses(init);
-        List<Process> listForRR = copyListOfInitialProcesses(init);
+        init = generateInitalProcesses(minLength, maxLength, maxCreationTimeDifference, numberOfProcesses);
+        listForFCFS = copyListOfInitialProcesses(init);
+        listForSJF = copyListOfInitialProcesses(init);
+        listForRR = copyListOfInitialProcesses(init);
 
-        Simulation FCFS = new FCFSSimulation(listForFCFS);
-        Simulation SJF = new SJFSimulation(listForSJF);
-        Simulation RR = new RRSimulation(listForRR, 15);
-//        FCFS.run();
-//        SJF.run();
+        FCFS = new FCFSSimulation(listForFCFS);
+        SJF = new SJFSimulation(listForSJF);
+        RR = new RRSimulation(listForRR, K);
+        FCFS.run();
+        System.out.println();
+        SJF.run();
+        System.out.println();
         RR.run();
+        System.out.println();
     }
 
     public static List<Process> generateInitalProcesses(int minLength, int maxLength, int maxCreationTimeDifference, int numberOfProcesses) {
@@ -47,7 +79,7 @@ public class Main {
         initialList.add(new Process(3, 8, 3));
 
         //creating processes, add gausian?
-        for (int i = 0; i < numberOfProcesses; i++) {
+        for (int i = 0; i < numberOfProcesses - 3 ; i++) {
             length = random.nextInt(maxLength + 1 - minLength) + minLength;
             creationTime = random.nextInt(maxCreationTimeDifference);
             beginning += creationTime;
@@ -56,6 +88,13 @@ public class Main {
             processNumber++;
         }
         return initialList;
+
+        // x =random
+        //if x<0.05
+        //generatenewprocess
+        //else x+=0.1
+
+        //itd mam wtedy dodawanie gdy przez dlugi czas nie dodawalem
     }
 
     public static List<Process> copyListOfInitialProcesses(List<Process> init) {
