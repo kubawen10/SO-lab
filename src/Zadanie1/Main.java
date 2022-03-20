@@ -89,12 +89,6 @@ public class Main {
         }
         return initialList;
 
-        // x =random
-        //if x<0.05
-        //generatenewprocess
-        //else x+=0.1
-
-        //itd mam wtedy dodawanie gdy przez dlugi czas nie dodawalem
     }
 
     public static List<Process> copyListOfInitialProcesses(List<Process> init) {
