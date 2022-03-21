@@ -15,6 +15,7 @@ public class SJF extends Simulation {
 
             if (!currentServedProcess.isDone()) {
                 processor.serve(time, currentServedProcess);
+                serveTime += 1;
             } else {
                 if (currentServedProcess.getLength() == 0) {
                     saveValues();
@@ -28,12 +29,15 @@ public class SJF extends Simulation {
                         saveSwitch();
                     } else {
                         currentServedProcess.serveProcess(time);
+                        emptyQueueTime += 1;
                     }
                 } else { //length -1
                     addNewProcesses();
                     if (processor.getQueueSize() >= 1) {
                         switchProcess(0);
                         saveSwitch();
+                    } else {
+                        emptyQueueTime += 1;
                     }
                 }
             }

@@ -16,25 +16,28 @@ public class FCFS extends Simulation {
 
             if (!currentServedProcess.isDone()) {
                 processor.serve(time, currentServedProcess);
+                serveTime += 1;
             } else {
                 if (currentServedProcess.getLength() == 0) {
                     saveValues();
 
                     processor.removeProcess(0);
 
-                    if(processor.getQueueSize()>=1){
+                    if (processor.getQueueSize() >= 1) {
                         switchProcess(0);
 
                         saveSwitch();
-                    }else{
+                    } else {
                         currentServedProcess.serveProcess(time); //set length to -1
+                        emptyQueueTime+=1;
                     }
 
                 } else { //length -1
-                    if(processor.getQueueSize()>=1){
+                    if (processor.getQueueSize() >= 1) {
                         switchProcess(0);
-
                         saveSwitch();
+                    } else {
+                        emptyQueueTime += 1;
                     }
                 }
             }

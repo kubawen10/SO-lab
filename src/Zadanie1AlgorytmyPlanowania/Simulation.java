@@ -19,7 +19,11 @@ public abstract class Simulation {
     public double maxWaitTime = 0;
     public int numberOfProcessSwitches = 0;
     public int numberOfStarvedProcesses = 0;
+
     public int switchTime = 0;
+    public int serveTime=0;
+    public int emptyQueueTime=-1;
+
 
     public final Processor processor;
     public Process currentServedProcess;

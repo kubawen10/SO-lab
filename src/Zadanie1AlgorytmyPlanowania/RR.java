@@ -26,6 +26,7 @@ public class RR extends Simulation {
                 if (counter < K) {
                     processor.serve(time, currentServedProcess);
                     counter++;
+                    serveTime+=1;
                     //System.out.println("Serving Process");
                 } else {
                     counter = 0;
@@ -38,6 +39,7 @@ public class RR extends Simulation {
                     if(processor.getQueueSize()==1){
                         processor.serve(time, currentServedProcess);
                         counter++;
+                        serveTime+=1;
                     }
                     else{
                         saveSwitch();
@@ -63,6 +65,7 @@ public class RR extends Simulation {
                         saveSwitch();
                         //System.out.println("Switch time: " + switchTime);
                     } else {
+                        emptyQueueTime+=1;
                         currentServedProcess.serveProcess(time); //set length to -1
                     }
 
@@ -72,6 +75,9 @@ public class RR extends Simulation {
                         //System.out.println("Switching process");
                         saveSwitch();
                         //System.out.println("Switch time: " + switchTime);
+                    }
+                    else{
+                        emptyQueueTime+=1;
                     }
                 }
             }

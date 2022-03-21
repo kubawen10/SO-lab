@@ -11,35 +11,53 @@ public class Main {
         int maxLength;
         int maxTimeBetweenProcesses;
 
-        processesNum = 10;    minLength=1;   maxLength=40;   maxTimeBetweenProcesses=60;
+        processesNum = 1000;
+        minLength = 1;
+        maxLength = 40;
+        maxTimeBetweenProcesses = 50;
         initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
         runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
         //runSimulation(processesNum, minLength, maxLength, maxTimeBetweenProcesses, 10, initialList);
 
-        processesNum = 1000;    minLength=10;   maxLength=40;   maxTimeBetweenProcesses=50;
+        processesNum = 1000;
+        minLength = 10;
+        maxLength = 40;
+        maxTimeBetweenProcesses = 30;
         initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
         runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 1000;    minLength=10;   maxLength=40;   maxTimeBetweenProcesses=60;
+        processesNum = 1000;
+        minLength = 10;
+        maxLength = 40;
+        maxTimeBetweenProcesses = 40;
         initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
         runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 1000;    minLength=10;   maxLength=40;   maxTimeBetweenProcesses=30;
+        processesNum = 1000;
+        minLength = 10;
+        maxLength = 40;
+        maxTimeBetweenProcesses = 50;
         initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
         runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 10000;    minLength=10;   maxLength=40;   maxTimeBetweenProcesses=40;
+        processesNum = 10000;
+        minLength = 10;
+        maxLength = 40;
+        maxTimeBetweenProcesses = 30;
         initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
         runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 10000;    minLength=10;   maxLength=40;   maxTimeBetweenProcesses=40;
+        processesNum = 10000;
+        minLength = 10;
+        maxLength = 40;
+        maxTimeBetweenProcesses = 40;
         initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
         runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
     }
 
-    public static void runSeries(int processesNum, int minLength, int maxLength, int maxTimeBetweenProcesses, List<Process> initialList, int minK, int maxK){
-        for (int k = minK; k <=maxK ; k+=5) {
+    public static void runSeries(int processesNum, int minLength, int maxLength, int maxTimeBetweenProcesses, List<Process> initialList, int minK, int maxK) {
+        for (int k = minK; k <= maxK; k += 5) {
             runSimulation(processesNum, minLength, maxLength, maxTimeBetweenProcesses, k, initialList);
         }
         System.out.println();
@@ -116,18 +134,30 @@ public class Main {
                 padRight(String.valueOf(RRSim.maxWaitTime), numLength);
         System.out.println(text);
 
+        text = padRight("Serve time: ", descLength) +
+                padRight(String.valueOf(FCFSSim.serveTime), numLength) +
+                padRight(String.valueOf(SJFSim.serveTime), numLength) +
+                padRight(String.valueOf(RRSim.serveTime), numLength);
+        System.out.println(text);
+
+        text = padRight("Switch time: ", descLength) +
+                padRight(String.valueOf(FCFSSim.switchTime), numLength) +
+                padRight(String.valueOf(SJFSim.switchTime), numLength) +
+                padRight(String.valueOf(RRSim.switchTime), numLength);
+        System.out.println(text);
+
+        text = padRight("Empty queue time: ", descLength) +
+                padRight(String.valueOf(FCFSSim.emptyQueueTime), numLength) +
+                padRight(String.valueOf(SJFSim.emptyQueueTime), numLength) +
+                padRight(String.valueOf(RRSim.emptyQueueTime), numLength);
+        System.out.println(text);
+
         text = padRight("Time for everything: ", descLength) +
-                padRight(String.valueOf(FCFSSim.time), numLength) +
-                padRight(String.valueOf(SJFSim.time), numLength) +
-                padRight(String.valueOf(RRSim.time), numLength);
+                padRight(String.valueOf(FCFSSim.serveTime + FCFSSim.switchTime + FCFSSim.emptyQueueTime), numLength) +
+                padRight(String.valueOf(SJFSim.serveTime + SJFSim.switchTime + SJFSim.emptyQueueTime), numLength) +
+                padRight(String.valueOf(RRSim.serveTime + RRSim.switchTime + RRSim.emptyQueueTime), numLength);
         System.out.println(text);
-
-        text = padRight("Time without switching: ", descLength) +
-                padRight(String.valueOf(FCFSSim.time - FCFSSim.switchTime), numLength) +
-                padRight(String.valueOf(SJFSim.time - SJFSim.switchTime), numLength) +
-                padRight(String.valueOf(RRSim.time - RRSim.numberOfProcessSwitches), numLength);
-        System.out.println(text);
-
+        System.out.println();
     }
 
     public static String padRight(String text, int colWidth) {
