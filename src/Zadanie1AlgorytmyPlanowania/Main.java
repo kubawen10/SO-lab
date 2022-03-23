@@ -11,49 +11,81 @@ public class Main {
         int maxLength;
         int maxTimeBetweenProcesses;
 
-        processesNum = 1000;
-        minLength = 1;
-        maxLength = 40;
-        maxTimeBetweenProcesses = 50;
-        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
-        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+//        System.out.println("Very short processes, very dense queue, K from 1 to 36");
+//        processesNum = 1000;
+//        minLength = 1;
+//        maxLength = 40;
+//        maxTimeBetweenProcesses = 20;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        //runSimulation(processesNum, minLength, maxLength, maxTimeBetweenProcesses, 10, initialList);
+//        System.out.println("Very short processes, dense queue, K from 1 to 36");
+//        processesNum = 1000;
+//        minLength = 1;
+//        maxLength = 40;
+//        maxTimeBetweenProcesses = 35;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 1000;
-        minLength = 10;
-        maxLength = 40;
-        maxTimeBetweenProcesses = 30;
-        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
-        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+//        System.out.println("Very short processes, loose queue, K from 1 to 36");
+//        processesNum = 1000;
+//        minLength = 1;
+//        maxLength = 40;
+//        maxTimeBetweenProcesses = 50;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 1000;
-        minLength = 10;
-        maxLength = 40;
-        maxTimeBetweenProcesses = 40;
-        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
-        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+//        System.out.println("Short processes, very dense queue, K from 10 to 40");
+//        processesNum = 1000;
+//        minLength = 10;
+//        maxLength = 40;
+//        maxTimeBetweenProcesses = 20;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 1000;
-        minLength = 10;
-        maxLength = 40;
-        maxTimeBetweenProcesses = 50;
-        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
-        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 10000;
-        minLength = 10;
-        maxLength = 40;
-        maxTimeBetweenProcesses = 30;
-        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
-        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+//        System.out.println("\n\nShort processes, dense queue, K from 10 to 40");
+//        processesNum = 1000;
+//        minLength = 10;
+//        maxLength = 40;
+//        maxTimeBetweenProcesses = 35;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-        processesNum = 10000;
-        minLength = 10;
-        maxLength = 40;
-        maxTimeBetweenProcesses = 40;
-        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
-        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+//        System.out.println("\n\nShort processes, loose queue, K from 10 to 40");
+//        processesNum = 1000;
+//        minLength = 10;
+//        maxLength = 40;
+//        maxTimeBetweenProcesses = 50;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+
+//        //adjust starveBarrier
+//        System.out.println("\n\nLong processes, very dense queue, K from 10 to 100");
+//        processesNum = 1000;
+//        minLength = 10;
+//        maxLength = 100;
+//        maxTimeBetweenProcesses = 30;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+
+
+        //adjust starveBarrier
+//        System.out.println("\n\nLong processes, dense queue, K from 10 to 100");
+//        processesNum = 1000;
+//        minLength = 10;
+//        maxLength = 100;
+//        maxTimeBetweenProcesses = 80;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+
+//        System.out.println("\n\nLong processes, loose queue, K from 10 to 100");
+//        processesNum = 1000;
+//        minLength = 10;
+//        maxLength = 100;
+//        maxTimeBetweenProcesses = 110;
+//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
     }
 
     public static void runSeries(int processesNum, int minLength, int maxLength, int maxTimeBetweenProcesses, List<Process> initialList, int minK, int maxK) {

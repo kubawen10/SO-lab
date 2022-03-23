@@ -3,7 +3,7 @@ package Zadanie1AlgorytmyPlanowania;
 import java.util.List;
 
 public abstract class Simulation {
-    private int starveBarreier = 10000;
+    private int starveBarrier = 14000;
 
     public List<Process> processes;
 
@@ -70,12 +70,16 @@ public abstract class Simulation {
         }
 
         //starved Processes, they will always be done but when done check if they waited for longer than some time
-        if (currentServedProcess.getStartTime() - currentServedProcess.getCreationTime() > starveBarreier) {
+        if (currentServedProcess.getStartTime() - currentServedProcess.getCreationTime() > starveBarrier) {
             numberOfStarvedProcesses++;
         }
 
         sumTimeCreationToFinish += time - currentServedProcess.getCreationTime();
         sumTimeStartToFinish += time - currentServedProcess.getStartTime();
         sumTimeCreationToStart += currentServedProcess.getStartTime() - currentServedProcess.getCreationTime();
+    }
+
+    public void setStarveBarreier(int s){
+        starveBarrier=s;
     }
 }
