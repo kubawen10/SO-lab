@@ -52,13 +52,13 @@ public class Main {
 //        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
 //        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-//        System.out.println("\n\nShort processes, loose queue, K from 10 to 40");
-//        processesNum = 1000;
-//        minLength = 10;
-//        maxLength = 40;
-//        maxTimeBetweenProcesses = 50;
-//        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
-//        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
+        System.out.println("\n\nShort processes, loose queue, K from 10 to 40");
+        processesNum = 1000;
+        minLength = 10;
+        maxLength = 40;
+        maxTimeBetweenProcesses = 60;
+        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
+        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
 //        //adjust starveBarrier
 //        System.out.println("\n\nLong processes, very dense queue, K from 10 to 100");
@@ -79,7 +79,7 @@ public class Main {
 //        initialList = new GenerateProcesses(processesNum, minLength, maxLength, maxTimeBetweenProcesses).generate();
 //        runSeries(processesNum, minLength, maxLength, maxTimeBetweenProcesses, initialList, minLength, maxLength);
 
-//        System.out.println("\n\nLong processes, loose queue, K from 10 to 100");
+//        System.out.println("\n\nLong processes, loose queue, K from 10 to 100")   ;
 //        processesNum = 1000;
 //        minLength = 10;
 //        maxLength = 100;
