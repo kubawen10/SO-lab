@@ -1,4 +1,4 @@
-package Zadanie1AlgorytmyPlanowania;
+package Zadanie1PlanowanieDostepuDoProcesow;
 
 
 public class Process implements Comparable<Process> {

@@ -1,4 +1,4 @@
-package Zadanie1AlgorytmyPlanowania;
+package Zadanie1PlanowanieDostepuDoProcesow;
 
 import java.util.ArrayList;
 import java.util.List;
