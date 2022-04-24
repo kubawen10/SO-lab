@@ -1,6 +1,9 @@
 package Zadanie2PlanowanieDostepuDoDysku.TaskChoosingAlgorithms;
 
 import Zadanie2PlanowanieDostepuDoDysku.Disc;
+import Zadanie2PlanowanieDostepuDoDysku.Task.Task;
+
+import java.util.LinkedList;
 
 public class FCFSAlgorithm extends Algorithm {
     public FCFSAlgorithm() {
@@ -11,24 +14,50 @@ public class FCFSAlgorithm extends Algorithm {
     }
 
     @Override
-    public int chooseTask(int currentHeadIndex, Disc disc) {
-        if (realTimeAlgorithm != null) {
-            if (lastTaskIndex == -1) {
-                System.out.println("Picking new index");
-                lastTaskIndex = realTimeAlgorithm.chooseTask(currentHeadIndex, disc);
-            }
-
-            if (currentHeadIndex == lastTaskIndex) {
-                System.out.println("Currently on desired index");
-                lastTaskIndex = -1;
-                return currentHeadIndex;
-            }
-
-            return lastTaskIndex;
+    public Task chooseTask(int currentHeadIndex, Disc disc) {
+        if (disc.isEmpty()) {
+            lastTaskIndex = -1;
+            return null;
         }
 
-        return -1;
+        Task returnTask = null;
+
+        if (realTimeAlgorithm != null) {
+            returnTask = realTimeAlgorithm.chooseTask(currentHeadIndex, disc);
+
+            if (returnTask != null) {
+                //lastTaskIndex = returnTask.getIndex();
+                return returnTask;
+            }
+        }
+
+        if (currentHeadIndex == lastTaskIndex || (lastTaskIndex!=-1 && disc.getQueueAtIndex(lastTaskIndex).isEmpty())) {
+            lastTaskIndex = -1;
+        }
+
+        if (lastTaskIndex == -1) {
+            for (LinkedList<Task> l : disc.getTasks()) {
+                if (!l.isEmpty()) {
+                    Task curEarliest = l.getFirst();
+
+                    if (returnTask == null) {
+                        returnTask = curEarliest;
+                    } else {
+                        returnTask = curEarliest.getCreationTime() < returnTask.getCreationTime() ? curEarliest : returnTask;
+                    }
+                }
+            }
+
+            lastTaskIndex = returnTask.getIndex();
+        } else {
+            return disc.getQueueAtIndex(lastTaskIndex).getFirst();
+        }
+
+        return returnTask;
     }
 
-
+    @Override
+    public String toString() {
+        return "FCFS + " + realTimeAlgorithm;
+    }
 }

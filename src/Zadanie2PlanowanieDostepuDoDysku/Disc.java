@@ -1,5 +1,8 @@
 package Zadanie2PlanowanieDostepuDoDysku;
 
+import Zadanie2PlanowanieDostepuDoDysku.Task.RealTimeTask;
+import Zadanie2PlanowanieDostepuDoDysku.Task.Task;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -7,7 +10,7 @@ public class Disc {
     private final int size;
     private ArrayList<LinkedList<Task>> tasks;
 
-    private LinkedList<RealTimeTask> realTimeTasks;
+    private ArrayList<RealTimeTask> realTimeTasks;
 
     private int currentlyAdded = 0;
 
@@ -17,18 +20,21 @@ public class Disc {
         for (int i = 0; i < size; i++) {
             tasks.add(new LinkedList<>());
         }
-        realTimeTasks = new LinkedList<>();
+        realTimeTasks = new ArrayList<>();
     }
 
     public boolean isEmpty() {
         return currentlyAdded == 0;
     }
 
-    public void addRealTimeTask(RealTimeTask task) {
-        realTimeTasks.addLast(task);
+    private void addRealTimeTask(RealTimeTask task) {
+        realTimeTasks.add(task);
     }
 
     public void addTask(Task task) {
+        if(task.isRealTime()){
+            addRealTimeTask((RealTimeTask) task);
+        }
         tasks.get(task.getIndex()).addLast(task);
         currentlyAdded++;
     }
@@ -48,14 +54,13 @@ public class Disc {
         return cur;
     }
 
-    public boolean removeTaskAtIndex(Task t, int index) {
-        currentlyAdded--;
-
+    public boolean removeTask(Task t) {
         if (t.isRealTime()) {
             realTimeTasks.remove(t);
         }
 
-        return tasks.get(index).remove(t);
+        currentlyAdded--;
+        return tasks.get(t.getIndex()).remove(t);
     }
 
     public Task getRealTimeAtIndex(int index){
@@ -67,11 +72,15 @@ public class Disc {
         return null;
     }
 
-    public LinkedList<RealTimeTask> getRealTimeTasks() {
+    public ArrayList<RealTimeTask> getRealTimeTasks() {
         return realTimeTasks;
     }
 
     public int getSize(){
         return size;
+    }
+
+    public ArrayList<LinkedList<Task>> getTasks(){
+        return tasks;
     }
 }

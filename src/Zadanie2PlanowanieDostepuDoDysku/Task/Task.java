@@ -1,6 +1,4 @@
-package Zadanie2PlanowanieDostepuDoDysku;
-
-import java.util.Objects;
+package Zadanie2PlanowanieDostepuDoDysku.Task;
 
 public abstract class Task {
     protected final int taskId;

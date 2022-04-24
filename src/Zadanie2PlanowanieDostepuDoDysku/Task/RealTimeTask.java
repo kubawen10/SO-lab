@@ -1,4 +1,4 @@
-package Zadanie2PlanowanieDostepuDoDysku;
+package Zadanie2PlanowanieDostepuDoDysku.Task;
 
 public class RealTimeTask extends Task {
     private int deadline;
