@@ -15,13 +15,10 @@ public class Simulation {
     }
 
     public Simulation(int processId, int numberOfPages, int numberOfFrames, int numberOfReferences, int localReferencesChance) {
-        Process p = new Process(processId, numberOfPages);
-        Memory m = new Memory(numberOfFrames);
+        process = new Process(processId, numberOfPages);
+        process.setReferences(process.generateReferences(numberOfReferences, localReferencesChance));
 
-        p.setReferences(p.generateReferences(numberOfReferences, localReferencesChance));
-
-        process = p;
-        memory = m;
+        memory = new Memory(numberOfFrames);
     }
 
     private int run() {
@@ -33,7 +30,6 @@ public class Simulation {
 
         for (int i = 0; i < references.size(); i++) {
             curPage = references.get(i);
-            //System.out.println(i+1 + " CurPage: " + curPage + "\t\t" + "fault: " + !memory.pageInMemory(curPage));
 
             if (!memory.pageInMemory(curPage)) {
                 countPageFaults++;
@@ -72,6 +68,7 @@ public class Simulation {
     }
 
     public void runAll(){
+        System.out.println(this);
         runFIFO();
         runOPT();
         runLRU();
@@ -91,5 +88,11 @@ public class Simulation {
 
     private void printResults(String algorithmName, int numberOfFaults) {
         System.out.println(algorithmName + "\t\t faults: " + numberOfFaults);
+    }
+
+    @Override
+    public String toString() {
+        return "Simulation: {NumPages: " + process.getNumberOfPages() + "\t\tNumFrames: " + memory.getNumberOfFrames() +
+                "\t\tNumReferences: " + process.getReferences().size() + "}";
     }
 }

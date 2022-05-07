@@ -57,15 +57,19 @@ public class Process {
 
         for (int i = 0; i < numberOfReferences; i++) {
 
+            //wasnt local so maybe init
             if (!startLocal && random.nextInt(100) < localReferencesChance) {
                 startLocal = true;
 
-                numberOfLocalReferences = random.nextInt(numberOfPages * 2) + numberOfPages;
+                numberOfLocalReferences = random.nextInt(numberOfPages) + numberOfPages;
                 localPages = chooseLocalPages();
             }
 
+            //if local and not finished add from local range
             if (startLocal && numberOfLocalReferences > 0) {
                 returnList.add(chooseRandomPage(localPages));
+
+                //end of local references
                 if (--numberOfLocalReferences == 0) {
                     startLocal = false;
                 }
@@ -75,7 +79,6 @@ public class Process {
         }
 
         references = returnList;
-
         return returnList;
     }
 
@@ -87,7 +90,9 @@ public class Process {
         List<Page> localPages = new ArrayList<>(pages);
 
         Collections.shuffle(localPages);
-        return localPages.subList(0, random.nextInt(numberOfPages - 3) + 2);
+
+        //sublist of 2 to pagesSize * 3/4 local pages
+        return localPages.subList(0, Math.min((localPages.size() * 3) / 4, random.nextInt(localPages.size()) + 2));
     }
 
     @Override

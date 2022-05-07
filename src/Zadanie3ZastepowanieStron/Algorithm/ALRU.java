@@ -29,8 +29,6 @@ public class ALRU extends PageReplacementAlgorithm {
 
     @Override
     protected int chooseDeletePage(List<Page> frames, List<Page> references, int curIndex) {
-        //i dont think it works :(
-
         //init queue after memory is filled
         initQueue(frames);
 
@@ -49,7 +47,6 @@ public class ALRU extends PageReplacementAlgorithm {
         //add current
         queue.addLast(new MarkedPage(references.get(curIndex)));
 
-        System.out.println(queue);
         //find page in memory and return its index
         for (int i = 0; i < frames.size(); i++) {
             if (frames.get(i).equals(markedPage.p)) {
@@ -80,7 +77,6 @@ public class ALRU extends PageReplacementAlgorithm {
             MarkedPage markedPage = queue.get(i);
             if (markedPage.p.equals(page)) {
                 markedPage.marker = 1;
-                System.out.println("updating " + page);
                 return;
             }
         }
