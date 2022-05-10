@@ -3,6 +3,7 @@ package Zadanie2PlanowanieDostepuDoDysku;
 import Zadanie2PlanowanieDostepuDoDysku.Simulations.*;
 import Zadanie2PlanowanieDostepuDoDysku.Task.Task;
 import Zadanie2PlanowanieDostepuDoDysku.TaskChoosingAlgorithms.Algorithm;
+import Zadanie2PlanowanieDostepuDoDysku.TaskChoosingAlgorithms.RealTimeAlgorithms.EDFAlgorithm;
 import Zadanie2PlanowanieDostepuDoDysku.TaskChoosingAlgorithms.RealTimeAlgorithms.FDScanAlgorithm;
 
 import java.util.LinkedList;
@@ -15,35 +16,13 @@ public class Main {
         int realTimeChance;
         Algorithm realTimeAlg;
 
-        numberOfTasks = 100;
-        discSize = 200;
-        density = 1;
-        realTimeChance = 0;
-        realTimeAlg = new FDScanAlgorithm();
-
-        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
-        numberOfTasks = 100;
-        discSize = 200;
-        density = 5;
-        realTimeChance = 0;
-        realTimeAlg = new FDScanAlgorithm();
-
-        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
-        numberOfTasks = 100;
-        discSize = 200;
-        density = 9;
-        realTimeChance = 0;
-        realTimeAlg = new FDScanAlgorithm();
-
-        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
-
-
+        //NO REAL TIME
+        //low numberOfTasks
         numberOfTasks = 1000;
         discSize = 200;
         density = 1;
         realTimeChance = 0;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
 
         numberOfTasks = 1000;
@@ -51,7 +30,6 @@ public class Main {
         density = 5;
         realTimeChance = 0;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
 
         numberOfTasks = 1000;
@@ -59,55 +37,110 @@ public class Main {
         density = 9;
         realTimeChance = 0;
         realTimeAlg = new FDScanAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
 
+        //high numberOfTasks
+        numberOfTasks = 10000;
+        discSize = 200;
+        density = 1;
+        realTimeChance = 0;
+        realTimeAlg = new FDScanAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+
+        numberOfTasks = 10000;
+        discSize = 200;
+        density = 5;
+        realTimeChance = 0;
+        realTimeAlg = new FDScanAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+
+        numberOfTasks = 10000;
+        discSize = 200;
+        density = 9;
+        realTimeChance = 0;
+        realTimeAlg = new FDScanAlgorithm();
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
 
 
-        numberOfTasks = 100;
+        //WITH REAL TIME
+        //low numberOfTasks
+        numberOfTasks = 1000;
+        discSize = 200;
+        density = 1;
+        realTimeChance = 30;
+        realTimeAlg = new EDFAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+        numberOfTasks = 1000;
         discSize = 200;
         density = 1;
         realTimeChance = 30;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
-        numberOfTasks = 100;
+
+        numberOfTasks = 1000;
+        discSize = 200;
+        density = 5;
+        realTimeChance = 30;
+        realTimeAlg = new EDFAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+        numberOfTasks = 1000;
         discSize = 200;
         density = 5;
         realTimeChance = 30;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
-        numberOfTasks = 100;
+
+        numberOfTasks = 1000;
+        discSize = 200;
+        density = 9;
+        realTimeChance = 30;
+        realTimeAlg = new EDFAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+        numberOfTasks = 1000;
         discSize = 200;
         density = 9;
         realTimeChance = 30;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
 
-
-        numberOfTasks = 1000;
+        //highnumberOfTasks
+        numberOfTasks = 10000;
+        discSize = 200;
+        density = 1;
+        realTimeChance = 30;
+        realTimeAlg = new EDFAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+        numberOfTasks = 10000;
         discSize = 200;
         density = 1;
         realTimeChance = 30;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
 
-        numberOfTasks = 1000;
+        numberOfTasks = 10000;
+        discSize = 200;
+        density = 5;
+        realTimeChance = 30;
+        realTimeAlg = new EDFAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+        numberOfTasks = 10000;
         discSize = 200;
         density = 5;
         realTimeChance = 30;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
 
-        numberOfTasks = 1000;
+        numberOfTasks = 10000;
+        discSize = 200;
+        density = 9;
+        realTimeChance = 30;
+        realTimeAlg = new EDFAlgorithm();
+        runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
+        numberOfTasks = 10000;
         discSize = 200;
         density = 9;
         realTimeChance = 30;
         realTimeAlg = new FDScanAlgorithm();
-
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
     }
 
@@ -116,7 +149,7 @@ public class Main {
                 "number of tasks: " + numberOfTasks + "\n" +
                 "discSize: " + discSize + "\n" +
                 "density: " + density + "\n" +
-                "realTimeChance: " + realTimeChance + "\n\n");
+                "realTimeChance: " + realTimeChance + "\n");
         TaskGenerator taskGenerator = new TaskGenerator(numberOfTasks, discSize, density, realTimeChance);
 
         LinkedList<Task> tasks = taskGenerator.generate();

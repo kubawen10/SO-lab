@@ -142,6 +142,4 @@ public abstract class Simulation {
             }
         }
     }
-
-
 }

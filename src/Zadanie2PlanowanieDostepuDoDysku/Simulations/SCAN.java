@@ -14,12 +14,11 @@ public class SCAN extends Simulation {
         taskChoosingAlgorithm = new SCANAlgorithm();
     }
 
-
-
     public SCAN(int discSize, LinkedList<Task> tasks, Algorithm realTimeAlgorithm) {
         super(discSize, tasks);
         taskChoosingAlgorithm = new SCANAlgorithm(realTimeAlgorithm);
     }
+
 
     @Override
     protected void serveTaskDependingOnIndex(int goToIndex, Task goToTask) {

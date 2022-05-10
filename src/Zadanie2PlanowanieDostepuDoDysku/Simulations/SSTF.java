@@ -17,6 +17,7 @@ public class SSTF extends Simulation {
         taskChoosingAlgorithm = new SSTFAlgorithm(realTimeAlgorithm);
     }
 
+
     @Override
     protected void serveTaskDependingOnIndex(int goToIndex, Task goToTask) {
         if (goToIndex == currentHeadIndex) {

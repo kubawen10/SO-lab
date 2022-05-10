@@ -14,6 +14,11 @@ public class CSCAN extends Simulation {
         taskChoosingAlgorithm = new CSCANAlgorithm();
     }
 
+    public CSCAN(int discSize, LinkedList<Task> tasks, Algorithm realTimeAlgorithm) {
+        super(discSize, tasks);
+        taskChoosingAlgorithm = new CSCANAlgorithm(realTimeAlgorithm);
+    }
+
     @Override
     protected void serveTaskDependingOnIndex(int goToIndex, Task goToTask) {
         if (goToIndex == -1) {
@@ -23,11 +28,6 @@ public class CSCAN extends Simulation {
                 serveTask(goToTask);
             }
         }
-    }
-
-    public CSCAN(int discSize, LinkedList<Task> tasks, Algorithm realTimeAlgorithm) {
-        super(discSize, tasks);
-        taskChoosingAlgorithm = new CSCANAlgorithm(realTimeAlgorithm);
     }
 
     @Override
