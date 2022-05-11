@@ -87,7 +87,7 @@ public class Simulation {
     }
 
     private void printResults(String algorithmName, int numberOfFaults) {
-        System.out.println(algorithmName + "\t\t faults: " + numberOfFaults);
+        System.out.println(algorithmName + "\t\t Faults: " + numberOfFaults);
     }
 
     @Override

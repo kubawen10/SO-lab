@@ -7,10 +7,10 @@ import java.util.Random;
 
 public class Process {
     private final Random random = new Random();
-    private int processId;
-    private int numberOfPages;
+    private final int processId;
+    private final int numberOfPages;
 
-    private List<Page> pages;
+    private final List<Page> pages;
 
     private List<Page> references;
 
@@ -28,16 +28,8 @@ public class Process {
         return processId;
     }
 
-    public void setProcessId(int processId) {
-        this.processId = processId;
-    }
-
     public int getNumberOfPages() {
         return numberOfPages;
-    }
-
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
     }
 
     public List<Page> getReferences() {
@@ -50,6 +42,8 @@ public class Process {
 
     public List<Page> generateReferences(int numberOfReferences, int localReferencesChance) {
         List<Page> returnList = new ArrayList<>();
+        int sum=0;
+        int summ=0;
 
         boolean startLocal = false;
         List<Page> localPages = new ArrayList<>();
@@ -57,12 +51,15 @@ public class Process {
 
         for (int i = 0; i < numberOfReferences; i++) {
 
-            //wasnt local so maybe init
-            if (!startLocal && random.nextInt(100) < localReferencesChance) {
+            //wasnt local so maybe init(p/1000 chance of starting)
+            if (!startLocal && random.nextInt(1000) < localReferencesChance) {
                 startLocal = true;
 
-                numberOfLocalReferences = random.nextInt(numberOfPages) + numberOfPages;
+                //number of local pages is in range of [numOfPagesInMem; numOfPages + random(0; numOfPages*2))
+                numberOfLocalReferences = numberOfPages + random.nextInt(numberOfPages * 2);
                 localPages = chooseLocalPages();
+
+                //System.out.println("started local num: " + numberOfLocalReferences + " pages: " + localPages);
             }
 
             //if local and not finished add from local range
@@ -73,7 +70,7 @@ public class Process {
                 if (--numberOfLocalReferences == 0) {
                     startLocal = false;
                 }
-            } else {
+            } else { //else choose from all pages
                 returnList.add(chooseRandomPage(pages));
             }
         }
@@ -91,8 +88,11 @@ public class Process {
 
         Collections.shuffle(localPages);
 
+        int to=Math.max(3, localPages.size()/(random.nextInt(10)+2));
+        //System.out.println(to);
         //sublist of 2 to pagesSize * 3/4 local pages
-        return localPages.subList(0, Math.min((localPages.size() * 3) / 4, random.nextInt(localPages.size()) + 2));
+        //return localPages.subList(0, Math.min(localPages.size() / 2, random.nextInt(localPages.size()) + 2));
+        return localPages.subList(0, to);
     }
 
     @Override

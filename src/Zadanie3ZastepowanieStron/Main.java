@@ -35,15 +35,14 @@ public class Main {
         //s.setReferences(references2);
 
         Simulation s;
+        Memory m;
 
         //same number of pages, 0 percent chance for localReferences, different number of frames (same references)
         Process process = new Process(1, 20);
-
         //0 percent chance for localReferences, same references, different number of frames
         process.generateReferences(100000, 0);
-        Memory m;
 
-        m = new Memory(18);
+        m = new Memory(17);
         s = new Simulation(process, m);
         s.runAll();
 
@@ -66,15 +65,6 @@ public class Main {
 
 
         //same number of pages, same number of frames, different localReferences chance
-        System.out.println("Local chance: " + 0);
-        s = new Simulation(1, 20, 17, 100000,0);
-        s.runAll();
-        s = new Simulation(1, 20, 10, 100000,0);
-        s.runAll();
-        s = new Simulation(1, 20, 5, 100000,0);
-        s.runAll();
-
-
         System.out.println("\nLocal chance: " + 10);
         s = new Simulation(1, 20, 17, 100000,10);
         s.runAll();

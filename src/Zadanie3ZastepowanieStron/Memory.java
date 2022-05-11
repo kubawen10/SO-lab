@@ -46,6 +46,6 @@ public class Memory {
 
     @Override
     public String toString() {
-        return "frames: " + frames;
+        return "Frames: " + frames;
     }
 }
