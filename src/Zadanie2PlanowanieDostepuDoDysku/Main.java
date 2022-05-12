@@ -16,6 +16,7 @@ public class Main {
         int realTimeChance;
         Algorithm realTimeAlg;
 
+        /*
         //NO REAL TIME
         //low numberOfTasks
         numberOfTasks = 1000;
@@ -60,7 +61,7 @@ public class Main {
         realTimeChance = 0;
         realTimeAlg = new FDScanAlgorithm();
         runSim(numberOfTasks, discSize, density, realTimeChance, realTimeAlg);
-
+         */
 
         //WITH REAL TIME
         //low numberOfTasks

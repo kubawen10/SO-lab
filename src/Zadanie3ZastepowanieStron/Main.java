@@ -19,6 +19,9 @@ public class Main {
         references.add(new Page(1, 4));
         references.add(new Page(1, 5));
 
+
+        //dlugi ciag o niewielkiej liczbie lokalnych stron
+
         List<Page> references2 = new ArrayList<>();
         references2.add(new Page(1, 1));
         references2.add(new Page(1, 2));

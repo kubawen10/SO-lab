@@ -56,7 +56,7 @@ public class Process {
                 startLocal = true;
 
                 //number of local pages is in range of [numOfPagesInMem; numOfPages + random(0; numOfPages*2))
-                numberOfLocalReferences = numberOfPages + random.nextInt(numberOfPages * 2);
+                numberOfLocalReferences = numberOfPages * 20 + random.nextInt(numberOfPages * 2);
                 localPages = chooseLocalPages();
 
                 //System.out.println("started local num: " + numberOfLocalReferences + " pages: " + localPages);
@@ -89,9 +89,7 @@ public class Process {
         Collections.shuffle(localPages);
 
         int to=Math.max(3, localPages.size()/(random.nextInt(10)+2));
-        //System.out.println(to);
-        //sublist of 2 to pagesSize * 3/4 local pages
-        //return localPages.subList(0, Math.min(localPages.size() / 2, random.nextInt(localPages.size()) + 2));
+        to = random.nextInt(2)+2;
         return localPages.subList(0, to);
     }
 
