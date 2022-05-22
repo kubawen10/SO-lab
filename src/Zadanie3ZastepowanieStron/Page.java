@@ -1,7 +1,5 @@
 package Zadanie3ZastepowanieStron;
 
-import java.util.Objects;
-
 public class Page {
     int processId;
     int pageId;

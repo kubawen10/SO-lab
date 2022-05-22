@@ -9,7 +9,6 @@ public class Memory {
 
     public Memory(int numberOfFrames) {
         this.numberOfFrames = numberOfFrames;
-
         resetMemory();
     }
 
