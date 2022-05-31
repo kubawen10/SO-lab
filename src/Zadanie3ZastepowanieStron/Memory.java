@@ -12,11 +12,11 @@ public class Memory {
         resetMemory();
     }
 
-    public boolean pageInMemory(Page p){
+    public boolean pageInMemory(Page p) {
         return frames.contains(p);
     }
 
-    public void setFrame(int index, Page p){
+    public void setFrame(int index, Page p) {
         frames.set(index, p);
     }
 
@@ -36,15 +36,23 @@ public class Memory {
         this.frames = frames;
     }
 
-    public void resetMemory(){
+    public void resetMemory() {
         frames = new ArrayList<>(numberOfFrames);
         for (int i = 0; i < numberOfFrames; i++) {
             frames.add(null);
         }
     }
 
+    public void addFrames(int n) {
+        for (int i = 0; i < n; i++) {
+            frames.add(null);
+        }
+
+        numberOfFrames += n;
+    }
+
     @Override
     public String toString() {
-        return "Frames: " + frames;
+        return "Frames(" + numberOfFrames + "): " + frames;
     }
 }

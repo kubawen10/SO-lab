@@ -95,6 +95,6 @@ public class Process {
 
     @Override
     public String toString() {
-        return "processId: " + processId + ", numberOfPages: " + numberOfPages + ", references: " + references;
+        return "processId: " + processId + ", numberOfPages: " + numberOfPages;// + ", references: " + references;
     }
 }

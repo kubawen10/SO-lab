@@ -6,82 +6,33 @@ import Zadanie3ZastepowanieStron.Page;
 import Zadanie3ZastepowanieStron.Process;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public abstract class Simulation {
     protected final PageReplacementAlgorithm pageReplacementAlgorithm = new LRU();
-    protected int numberOfFaults = 0;
+    protected int numberOfFaults;
 
     protected ArrayList<Process> processes;
     protected ArrayList<Page> unitedReferences;
 
-    protected int numberOfProcesses;
     protected int numberOfFrames;
-    protected int referencesForEachProcess;
 
-    public Simulation(List<Integer> numOfPagesOfEachProcess, int numberOfFrames, int referencesForEachProcess, int localReferencesChance) {
-        this.numberOfProcesses = numOfPagesOfEachProcess.size();
+    public Simulation(ArrayList<Process> processes, int numberOfFrames, ArrayList<Page> unitedReferences) {
         this.numberOfFrames = numberOfFrames;
-        this.referencesForEachProcess = referencesForEachProcess;
-        processes = new ArrayList<>();
-
-        //create processes with own references
-        for (int i = 0; i < numberOfProcesses; i++) {
-            Process p = new Process(i, numOfPagesOfEachProcess.get(i));
-            p.generateReferences(referencesForEachProcess, localReferencesChance);
-            processes.add(p);
-        }
-
-        //unite references
-        referencesUnion();
-    }
-
-    private void referencesUnion() {
-        unitedReferences = new ArrayList<>();
-        Random r = new Random();
-
-        //list of each process' cur reference index
-        ArrayList<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < processes.size(); i++) {
-            indexes.add(0);
-        }
-
-        //track references lists of processes that are already added
-        int wholeAdded = 0;
-        int chooseProcess;
-        int curIndex;
-        boolean added;
-
-        //while there are references that arent fully added
-        while (wholeAdded < indexes.size()) {
-            added = false;
-            //choose random process that will add its reference
-            chooseProcess = r.nextInt(processes.size());
-            curIndex = indexes.get(chooseProcess);
-
-            while (!added) {
-                //if it isnt fully added
-                if (curIndex < referencesForEachProcess) {
-                    unitedReferences.add(processes.get(chooseProcess).getReferences().get(curIndex));
-                    curIndex++;
-
-                    //increasing current reference index
-                    indexes.set(chooseProcess, curIndex);
-
-                    //if current process' references has been fully added
-                    if (curIndex == referencesForEachProcess) {
-                        wholeAdded++;
-                    }
-                    added = true;
-                } else {
-                    //go to next process in list
-                    chooseProcess = (chooseProcess + 1) % processes.size();
-                    curIndex = indexes.get(chooseProcess);
-                }
-            }
-        }
+        this.processes = processes;
+        this.unitedReferences = unitedReferences;
+        numberOfFaults = 0;
     }
 
     public abstract int run();
+
+    protected void copyUnitedReferences() {
+        ArrayList<Page> copy = new ArrayList<>(unitedReferences.size());
+        for (int i = 0; i < unitedReferences.size(); i++) {
+            int processId = unitedReferences.get(i).getProcessId();
+            int pageId = unitedReferences.get(i).getPageId();
+            copy.add(new Page(processId, pageId));
+        }
+
+        unitedReferences = copy;
+    }
 }

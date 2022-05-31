@@ -2,17 +2,17 @@ package Zadanie4PrzydzialRamek.ProportionalAlloc;
 
 import Zadanie3ZastepowanieStron.Memory;
 import Zadanie3ZastepowanieStron.Page;
+import Zadanie3ZastepowanieStron.Process;
 import Zadanie4PrzydzialRamek.Simulation;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProportionalSimulation extends Simulation {
     private final ProportionalAlgorithm algorithm = new ProportionalAlgorithm();
     private ArrayList<Memory> memories;
 
-    public ProportionalSimulation(List<Integer> numOfPagesOfEachProcess, int numberOfFrames, int referencesForEachProcess, int localReferencesChance) {
-        super(numOfPagesOfEachProcess, numberOfFrames, referencesForEachProcess, localReferencesChance);
+    public ProportionalSimulation(ArrayList<Process> processes, int numberOfFrames, ArrayList<Page> unitedReferences) {
+        super(processes, numberOfFrames, unitedReferences);
     }
 
     @Override
@@ -38,11 +38,17 @@ public class ProportionalSimulation extends Simulation {
     }
 
     private void initializeMemories(){
-        memories = new ArrayList<>();
-
+        memories = new ArrayList<>(processes.size());
         int curProcessFramesAlloc;
+        int sumOfPages = 0;
+
         for (int i = 0; i < processes.size(); i++) {
-            curProcessFramesAlloc = algorithm.giveFrames(numberOfFrames, i, processes);
+            sumOfPages+= processes.get(i).getNumberOfPages();
+        }
+
+        for (int i = 0; i < processes.size(); i++) {
+            int numOfCurProcessPages  = processes.get(i).getNumberOfPages();
+            curProcessFramesAlloc = algorithm.giveFrames(numOfCurProcessPages, sumOfPages, numberOfFrames);
             memories.add(new Memory(curProcessFramesAlloc));
         }
     }
