@@ -133,12 +133,13 @@ public class PFFSimulation extends Simulation {
     public int run() {
         numberOfFaults = 0;
         t = 0;
+        int curPageIndex;
 
         initializeMemories();
         copyUnitedReferences();
 
         while (!unitedReferences.isEmpty()) {
-            int curPageIndex = getFirstActive();
+            curPageIndex = getFirstActive();
             //System.out.println("Time: " + t);
 
             if (curPageIndex != -1) {

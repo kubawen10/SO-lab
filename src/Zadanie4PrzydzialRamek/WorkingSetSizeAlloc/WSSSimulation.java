@@ -3,13 +3,13 @@ package Zadanie4PrzydzialRamek.WorkingSetSizeAlloc;
 import Zadanie3ZastepowanieStron.Memory;
 import Zadanie3ZastepowanieStron.Page;
 import Zadanie3ZastepowanieStron.Process;
-import Zadanie4PrzydzialRamek.PageFaultFrequencyAlloc.PFFSimulation;
 import Zadanie4PrzydzialRamek.ProportionalAlloc.ProportionalAlgorithm;
 import Zadanie4PrzydzialRamek.Simulation;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class WSSSimulation extends Simulation {
     class Env {
@@ -61,11 +61,15 @@ public class WSSSimulation extends Simulation {
             return sum;
         }
 
-        public void castToProperSize() {
-            if (!isActive) return;
+        public boolean castToProperSize() {
+            if (!isActive) return false;
 
             int wss = WSS();
-            if (wss == 0) deactivate();
+
+            if (wss == 0) {
+                deactivate();
+                return true;
+            }
 
             freeFrames += memory.getNumberOfFrames() - wss;
 
@@ -77,10 +81,12 @@ public class WSSSimulation extends Simulation {
             }
 
             memory = newM;
+            return false;
         }
 
         public void giveFrames(int numOfFrames) {
             memory.addFrames(numOfFrames);
+            freeFrames -= numOfFrames;
         }
 
         public void deactivate() {
@@ -101,6 +107,14 @@ public class WSSSimulation extends Simulation {
             numOfDeactivated--;
 
             memory = new Memory(numOfFrames);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Env env = (Env) o;
+            return p.getProcessId() == env.p.getProcessId();
         }
 
         @Override
@@ -139,33 +153,34 @@ public class WSSSimulation extends Simulation {
 
         while (!unitedReferences.isEmpty()) {
             curPageIndex = getFirstActive();
-            System.out.println("Time: " + t);
+            //System.out.println("Time: " + t);
 
             if (curPageIndex != -1) {
                 Page curPage = unitedReferences.get(curPageIndex);
-                System.out.println(curPage);
+                //System.out.println(curPage);
                 boolean served = envs.get(curPage.getProcessId()).serve(curPage);
 
                 unitedReferences.remove(curPageIndex);
                 if (!served) {
-                    System.out.println("Page fault occurred");
+                    //System.out.println("Page fault occurred");
                     numberOfFaults++;
                     thrashingDetection.addLast(t);
                 }
             }
 
             if (thrashingDetection.size() > (thrashingDetectionTime / 2)) thrashingSum++;
+            removeOldFaultTimes();
 
-            System.out.println(envs);
-            System.out.println("Wolne ramki: " + freeFrames);
+            //System.out.println(envs);
+            //System.out.println("Wolne ramki: " + freeFrames);
             if (t == dt || ((t % (dt / 2)) == 0 && t > dt)) {
-                System.out.println("Doing some magic");
+                //System.out.println("Doing some magic");
                 magic();
             }
 
             t++;
-            System.out.println();
-            System.out.println();
+            //System.out.println();
+            //System.out.println();
         }
 
         System.out.println("Thrashing sum: " + thrashingSum);
@@ -175,23 +190,24 @@ public class WSSSimulation extends Simulation {
 
     private void magic() {
         int D = sumWSS();
-        System.out.println("Calculated D: " + D);
-        System.out.println(numberOfFrames);
+        //System.out.println("Calculated D: " + D);
+        //System.out.println(numberOfFrames);
 
         if (D > numberOfFrames) {
-            System.out.println("Need to remove");
-            System.out.println("Before deactivation:\n " + envs);
+            //System.out.println("Need to remove");
+            //System.out.println("Before deactivation:\n " + envs);
             while (D > numberOfFrames) {
                 int dec = findAndDeactivateMaxWSS();
+                if (dec <= 0) break;
                 D -= dec;
             }
-            System.out.println("After deactivation:\n " + envs);
+            //System.out.println("After deactivation:\n " + envs);
 
             giveProportional();
         } else {
-            System.out.println("Casting");
-            castEnvsToProperNumOfFrames();
-            activateEnvs();
+            //System.out.println("Casting");
+            ArrayList<Env> deactivated = castEnvsToProperNumOfFrames();
+            activateEnvs(deactivated);
         }
     }
 
@@ -215,25 +231,27 @@ public class WSSSimulation extends Simulation {
             curEnv = envsToGive.get(i);
 
             int add = (int) ((((double) curEnv.WSS()) / sumOfWSS) * tempFree);
-            freeFrames -= add;
-
             curEnv.giveFrames(add);
         }
     }
 
-    private void activateEnvs() {
-        ArrayList<Env> deactivated = new ArrayList<>();
+    private void activateEnvs(ArrayList<Env> deactivated) {
+        ArrayList<Env> activate = new ArrayList<>();
         for (int i = 0; i < envs.size(); i++) {
-            if (!envs.get(i).isActive) deactivated.add(envs.get(i));
+            if (!envs.get(i).isActive) {
+                if (!deactivated.contains(envs.get(i))) {
+                    activate.add(envs.get(i));
+                }
+            }
         }
 
-        if (deactivated.isEmpty()) return;
+        if (activate.isEmpty()) return;
 
-        int numForEach = freeFrames / deactivated.size();
+        int numForEach = freeFrames / activate.size();
         if (numForEach > 0) {
             Env curEnv;
-            for (int i = 0; i < deactivated.size(); i++) {
-                curEnv = deactivated.get(i);
+            for (int i = 0; i < activate.size(); i++) {
+                curEnv = activate.get(i);
                 curEnv.activate(numForEach);
             }
         }
@@ -259,12 +277,18 @@ public class WSSSimulation extends Simulation {
         return max;
     }
 
-    private void castEnvsToProperNumOfFrames() {
+    private ArrayList<Env> castEnvsToProperNumOfFrames() {
+        ArrayList<Env> deactivated = new ArrayList<>();
+
         Env curEnv;
         for (int i = 0; i < envs.size(); i++) {
             curEnv = envs.get(i);
-            curEnv.castToProperSize();
+            if (curEnv.castToProperSize()) {
+                deactivated.add(curEnv);
+            }
         }
+
+        return deactivated;
     }
 
     private int sumWSS() {
@@ -280,6 +304,12 @@ public class WSSSimulation extends Simulation {
         }
 
         return sum;
+    }
+
+    private void removeOldFaultTimes() {
+        if (thrashingDetection.size() != 0 && t == thrashingDetection.getFirst() + thrashingDetectionTime) {
+            thrashingDetection.removeFirst();
+        }
     }
 
     private int getFirstActive() {

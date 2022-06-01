@@ -23,24 +23,24 @@ public class Main {
 
         numOfPagesForEach = new ArrayList<>();
         int j = 3;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i <= 9; i++) {
             numOfPagesForEach.add(j);
             j++;
         }
 
         numOfReferences = 10000;
         localChance = 30;
-        numberOfFrames = 30;
+        numberOfFrames = 25;
         processes = generateProcesses(numOfPagesForEach, numOfReferences, localChance);
         unitedReferences = referencesUnion(processes);
 
-        PFFControler(processes, numberOfFrames, unitedReferences);
-        //WSSControler(processes, numberOfFrames, unitedReferences);
-        EqualAndProportionalControler(processes, unitedReferences);
+        //PFFControler(processes, numberOfFrames, unitedReferences);
+        WSSControler(processes, numberOfFrames, unitedReferences);
+        //EqualAndProportionalControler(processes, unitedReferences);
     }
 
     public static void WSSControler(ArrayList<Process> processes, int numberOfFrames, ArrayList<Page> unitedReferences){
-        for (int i = 20; i < 21; i += 20) {
+        for (int i = 20; i < 161; i += 20) {
             WSSSim(processes, numberOfFrames, unitedReferences, i);
         }
     }
