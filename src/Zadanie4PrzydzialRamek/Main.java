@@ -46,7 +46,7 @@ public class Main {
     }
 
     public static void PFFControler(ArrayList<Process> processes, int numberOfFrames, ArrayList<Page> unitedReferences) {
-        //zawsze dochodza do ok 33k bledow thrashing rozny
+        //zawsze dochodza do ok 30k bledow w zaleznosci od ilosci ramek thrashing rozny
         //dt ma spore znaczenie, im wieksze tym mniej bledow ale jest granica
 
         for (int i = 20; i < 161; i += 20) {
@@ -63,6 +63,7 @@ public class Main {
     }
 
     public static void EqualAndProportionalControler(ArrayList<Process> processes, ArrayList<Page> unitedReferences) {
+        //equal lepsze bo male procesy wykonaja sie szybciej a pozniej tylko te duze
         for (int i = 25; i < 56; i += 5) {
             System.out.println("Number of frames: " + i);
             EqualSim(processes, i, unitedReferences);
@@ -72,6 +73,7 @@ public class Main {
 
 
     public static void WSSSim(ArrayList<Process> processes, int numberOfFrames, ArrayList<Page> unitedReferences, int dt){
+        //gwaltownie spada thrashing a ppozniej rosnie
         System.out.println("WSS SIMULATION: dt-" + dt + " \t\tNumberOfFrames: " + numberOfFrames);
         WSSSimulation s = new WSSSimulation(processes, numberOfFrames, unitedReferences, dt);
         s.run();
@@ -79,6 +81,7 @@ public class Main {
     }
 
     public static void PFFSim(ArrayList<Process> processes, int numberOfFrames, ArrayList<Page> unitedReferences, int l, int u, int dt) {
+        //granica odpowiednich parametrow jest, maly zakres daje lepsze rezultaty chyba
         System.out.println("PFF SIMULATION: l-" + l + " u-" + u + " dt-" + dt + " \t\tNumberOfFrames: " + numberOfFrames);
         PFFSimulation s = new PFFSimulation(processes, numberOfFrames, unitedReferences, l, u, dt);
         s.run();
