@@ -11,8 +11,9 @@ public class Strategy3 extends Controller {
         this.lowerBound = lowerBound;
     }
 
+    @Override
     public void run() {
-        cloneProcesses();
+        clear();
 
         LinkedList<Process> toAddNow;
         Processor cur;
@@ -36,6 +37,7 @@ public class Strategy3 extends Controller {
 
                     //if found add one process to it
                     if (available != null) {
+                        numberOfMigrations++;
                         available.addProcess(toAddNow.removeFirst());
                     }
                     //if not found add processes to cur processor
@@ -48,7 +50,8 @@ public class Strategy3 extends Controller {
                 //every 15 seconds ask for other processes
                 if (cur.getLoad() <= lowerBound && t % 15 == 0) {
                     Processor p = findToTake(cur);
-                    if(p!=null){
+                    if (p != null) {
+                        numberOfMigrations++;
                         cur.addProcess(p.removeBiggest());
                     }
                 }
@@ -62,6 +65,8 @@ public class Strategy3 extends Controller {
 
             t++;
         }
+
+        printStatistics(3);
     }
 
     private Processor findToTake(Processor p) {
@@ -87,4 +92,6 @@ public class Strategy3 extends Controller {
 
         return null;
     }
+
+
 }

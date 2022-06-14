@@ -1,5 +1,6 @@
 package Zadanie5RownowazenieObcProcesorow;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -9,6 +10,7 @@ public class Processor {
 
     LinkedList<Process> currentlyServed;
     LinkedList<Process> processesToCome;
+    ArrayList<Integer> params;
 
     private int load = 0;
 
@@ -19,6 +21,14 @@ public class Processor {
 
     public LinkedList<Process> generateProcesses(int numOfProcesses, int minLoad, int maxLoad, int minTime, int maxTime, int minTimeBetween, int maxTimeBetween) {
         processesToComeOriginal = new LinkedList<>();
+        params = new ArrayList<>();
+        params.add(minLoad);
+        params.add(maxLoad);
+        params.add(minTime);
+        params.add(maxTime);
+        params.add(minTimeBetween);
+        params.add(maxTimeBetween);
+
         Random r = new Random();
         int load = r.nextInt(maxLoad - minLoad) + minLoad;
         int time = r.nextInt(maxTime - minTime) + minTime;
@@ -43,6 +53,20 @@ public class Processor {
 
     public void cloneProcesses() {
         processesToCome = (LinkedList<Process>) processesToComeOriginal.clone();
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        if(params==null){
+            return "null";
+        }
+
+        s.append("Min Load: ").append(params.get(0)).append("\tMax Load: ").append(params.get(1));
+        s.append("\tMin Time: ").append(params.get(2)).append("\tMax Time: ").append(params.get(3));
+        s.append("\tMin TimeBetween: ").append(params.get(4)).append("\tMax TimeBetween: ").append(params.get(5));
+
+        return s.toString();
     }
 
     // set time of every process to time - 1, if its 0 remove from currently  served list

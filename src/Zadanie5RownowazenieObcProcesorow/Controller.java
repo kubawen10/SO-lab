@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Controller {
+    protected int numberOfAsks;
+    protected int numberOfMigrations;
+
     protected int upperBound;
     protected int numToAsk;
-
     protected Random random = new Random();
     protected ArrayList<Processor> processors;
     protected int t = 1;
@@ -15,15 +17,15 @@ public abstract class Controller {
         this.processors = processors;
     }
 
-    protected void cloneProcesses(){
+    protected void cloneProcesses() {
         for (int i = 0; i < processors.size(); i++) {
             processors.get(i).cloneProcesses();
         }
     }
 
-    protected boolean done(){
+    protected boolean done() {
         for (int i = 0; i < processors.size(); i++) {
-            if(!processors.get(i).isDone()) return false;
+            if (!processors.get(i).isDone()) return false;
         }
 
         return true;
@@ -43,6 +45,7 @@ public abstract class Controller {
                 continue;
             }
 
+            numberOfAsks++;
             if (cur.getLoad() <= upperBound) {
                 return cur;
             }
@@ -52,5 +55,20 @@ public abstract class Controller {
         }
 
         return null;
+    }
+
+    protected void clear() {
+        cloneProcesses();
+
+        numberOfMigrations = 0;
+        numberOfAsks = 0;
+    }
+
+    public abstract void run();
+
+    protected void printStatistics(int strat) {
+        System.out.println("Strategy" + strat + ": ");
+        System.out.println("Number of asks: " + numberOfAsks);
+        System.out.println("Number of migrations: " + numberOfMigrations);
     }
 }

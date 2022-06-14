@@ -8,8 +8,9 @@ public class Strategy1 extends Controller {
         super(processors, upperBound, numToAsk);
     }
 
+    @Override
     public void run() {
-        cloneProcesses();
+        clear();
 
         LinkedList<Process> toAddNow;
         Processor cur;
@@ -28,10 +29,11 @@ public class Strategy1 extends Controller {
 
                     //if found add one process to it
                     if (available != null) {
+                        numberOfMigrations++;
                         available.addProcess(toAddNow.removeFirst());
                     }
                     //if not found add processes to cur processor
-                    else{
+                    else {
                         cur.addProcesses(toAddNow);
                         toAddNow.clear();
                     }
@@ -47,5 +49,7 @@ public class Strategy1 extends Controller {
 
             t++;
         }
+
+        printStatistics(1);
     }
 }

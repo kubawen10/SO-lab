@@ -21,8 +21,15 @@ public class ProcessorsGenerator {
             p.generateProcesses(numOfProcesses, curMinLoad, curMaxLoad, curMinTime, curMaxTime, curMinTimeBetween, curMaxTimeBetween);
             processors.add(p);
         }
+        printProcessors(processors);
 
         return processors;
+    }
+
+    private static void printProcessors(ArrayList<Processor> processors){
+        for (int i = 0; i < processors.size(); i++) {
+            System.out.println(processors.get(i));
+        }
     }
 
     private static int randomIntGenerator(int from, int to) {
