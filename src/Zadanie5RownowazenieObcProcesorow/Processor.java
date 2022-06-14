@@ -1,76 +1,37 @@
 package Zadanie5RownowazenieObcProcesorow;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 public class Processor {
-    LinkedList<Process> processesToComeOriginal;
-
-    LinkedList<Process> currentlyServed;
-    LinkedList<Process> processesToCome;
-    ArrayList<Integer> params;
+    private final int id;
 
     private int load = 0;
+    private int loadAsks = 0;
+    private int migrations = 0;
+    private int overload = 0;
 
-    public Processor() {
-        processesToComeOriginal = new LinkedList<>();
+    private LinkedList<Process> currentlyServed;
+
+    public Processor(int id) {
+        this.id = id;
         currentlyServed = new LinkedList<>();
     }
 
-    public LinkedList<Process> generateProcesses(int numOfProcesses, int minLoad, int maxLoad, int minTime, int maxTime, int minTimeBetween, int maxTimeBetween) {
-        processesToComeOriginal = new LinkedList<>();
-        params = new ArrayList<>();
-        params.add(minLoad);
-        params.add(maxLoad);
-        params.add(minTime);
-        params.add(maxTime);
-        params.add(minTimeBetween);
-        params.add(maxTimeBetween);
+    public void reset() {
+        load = 0;
+        loadAsks = 0;
+        migrations = 0;
+        overload = 0;
 
-        Random r = new Random();
-        int load = r.nextInt(maxLoad - minLoad) + minLoad;
-        int time = r.nextInt(maxTime - minTime) + minTime;
-        int timeBetween;
-
-        int t = 1;
-        Process p = new Process(load, time, t);
-        processesToComeOriginal.addLast(p);
-
-        for (int i = 1; i < numOfProcesses; i++) {
-            load = r.nextInt(maxLoad - minLoad) + minLoad;
-            time = r.nextInt(maxTime - minTime) + minTime;
-            timeBetween = r.nextInt(maxTimeBetween - minTimeBetween) + minTimeBetween;
-            t += timeBetween;
-
-            p = new Process(load, time, t);
-            processesToComeOriginal.addLast(p);
-        }
-
-        return processesToComeOriginal;
-    }
-
-    public void cloneProcesses() {
-        processesToCome = (LinkedList<Process>) processesToComeOriginal.clone();
-    }
-
-    @Override
-    public String toString(){
-        StringBuilder s = new StringBuilder();
-        if(params==null){
-            return "null";
-        }
-
-        s.append("Min Load: ").append(params.get(0)).append("\tMax Load: ").append(params.get(1));
-        s.append("\tMin Time: ").append(params.get(2)).append("\tMax Time: ").append(params.get(3));
-        s.append("\tMin TimeBetween: ").append(params.get(4)).append("\tMax TimeBetween: ").append(params.get(5));
-
-        return s.toString();
+        currentlyServed = new LinkedList<>();
     }
 
     // set time of every process to time - 1, if its 0 remove from currently  served list
     public void serve() {
+        if (load > 100) {
+            overload++;
+        }
+
         Iterator<Process> it = currentlyServed.iterator();
         Process p;
 
@@ -84,74 +45,68 @@ public class Processor {
         }
     }
 
-    public LinkedList<Process> processesToAddNow(int t) {
-        LinkedList<Process> returnList = new LinkedList<>();
-        Process p = null;
-
-        if (!processesToCome.isEmpty()) {
-            p = processesToCome.getFirst();
-        } else {
-            return returnList;
-        }
-
-        while (p != null && p.getEntryTime() <= t) {
-            returnList.add(p);
-            processesToCome.removeFirst();
-
-            if (!processesToCome.isEmpty()) {
-                p = processesToCome.getFirst();
-            } else {
-                p = null;
-            }
-        }
-
-        return returnList;
-    }
-
-    public Process removeBiggest() {
-        if(currentlyServed.isEmpty()){
-            System.out.println("halo");
-            return null;
-        }
-        Process biggest = currentlyServed.get(0);
-
-        Iterator<Process> it = currentlyServed.iterator();
-        Process p;
-        while (it.hasNext()) {
-            p = it.next();
-
-            if (p.getLoad() > biggest.getLoad()) {
-                biggest = p;
-            }
-        }
-
-        currentlyServed.remove(biggest);
-        load -= biggest.getLoad();
-        return biggest;
-    }
-
     public void addProcess(Process p) {
         currentlyServed.addLast(p);
         load += p.getLoad();
-    }
-
-    public void addProcesses(LinkedList<Process> processes) {
-        Iterator<Process> it = processes.iterator();
-
-        while (it.hasNext()) {
-            addProcess(it.next());
+        if (p.getCpu() != id) {
+            migrations++;
         }
     }
 
-    public boolean isDone() {
-        return processesToCome.isEmpty() && currentlyServed.isEmpty();
+    public Process moveLast() {
+        if (currentlyServed.isEmpty()) {
+            System.out.println("halo");
+            return null;
+        }
+
+        Process last = currentlyServed.removeLast();
+
+        load -= last.getLoad();
+        migrations++;
+
+        return last;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Processor processor = (Processor) o;
+        return id == processor.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + id + " Load: " + load;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getLoad() {
+        loadAsks++;
         return load;
     }
 
-    public void setLoad(int load) {
-        this.load = load;
+    public int getLoadAsks() {
+        return loadAsks;
+    }
+
+    public void lowerLoadAsks() {
+        loadAsks--;
+    }
+
+
+    public LinkedList<Process> getCurrentlyServed() {
+        return currentlyServed;
+    }
+
+    public int getMigrations() {
+        return migrations;
+    }
+
+    public int getOverload() {
+        return overload;
     }
 }
