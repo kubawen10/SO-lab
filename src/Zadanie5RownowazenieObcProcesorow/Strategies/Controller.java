@@ -16,6 +16,7 @@ public abstract class Controller {
     protected Random random = new Random();
 
     protected ArrayList<Double> avgLoads;
+    protected ArrayList<Double> stdDevs;
 
     protected ArrayList<Processor> processors;
 
@@ -59,46 +60,31 @@ public abstract class Controller {
     }
 
     //saving avg load every x time units
-    protected void statCreation() {
-        if (t % 5 != 0) return;
+    protected void statCreation(int maxT) {
+        if (t % (maxT / 2) != 0) return;
 
         double sum = 0;
         for (int i = 0; i < processors.size(); i++) {
             processors.get(i).lowerLoadAsks();
             sum += processors.get(i).getLoad();
         }
-        avgLoads.add(sum / processors.size());
-    }
+        double avg = sum / processors.size();
+        avgLoads.add(avg);
 
-    protected double calculateAvg() {
-        double sum = 0;
-        for (int i = 0; i < avgLoads.size(); i++) {
-            sum += avgLoads.get(i);
+        for (int i = 0; i < processors.size(); i++) {
+            processors.get(i).lowerLoadAsks();
+            int x = processors.get(i).getLoad();
+            sum += x * x;
         }
 
-        return sum / avgLoads.size();
+        stdDevs.add(Math.sqrt(sum / processors.size()));
     }
 
-    private double calculateStdDev(double avg) {
-        double sumAvgiMinusAvgSqr = 0;
-        double x;
-
-        for (int i = 0; i < avgLoads.size(); i++) {
-            x = avgLoads.get(i) - avg;
-            sumAvgiMinusAvgSqr += x * x;
-        }
-
-        return Math.sqrt(sumAvgiMinusAvgSqr / avgLoads.size());
-    }
 
     protected void printStatistics(int strategy) {
         System.out.println("Strategy" + strategy + ": ");
-        double avgLoad = calculateAvg();
-        System.out.println("Average load: " + avgLoad);
-
-        double stdDev = calculateStdDev(avgLoad);
-        System.out.println("StdDev: " + stdDev);
-
+        System.out.println(avgLoads);
+        System.out.println(stdDevs);
         System.out.println("Load Asks : " + calculateLoadAsks());
         System.out.println("Migrations: " + calculateMigrations());
         System.out.println("Avg overload time: " + calculateAvgOverload());
@@ -151,6 +137,7 @@ public abstract class Controller {
 
         processes = Generator.copyProcesses(processesOriginal);
         avgLoads = new ArrayList<>();
+        stdDevs = new ArrayList<>();
         t = 1;
     }
 
@@ -158,5 +145,5 @@ public abstract class Controller {
         return processes.isEmpty();
     }
 
-    public abstract void run();
+    public abstract void run(int maxT);
 }

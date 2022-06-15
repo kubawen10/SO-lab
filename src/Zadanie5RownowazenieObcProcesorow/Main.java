@@ -14,7 +14,7 @@ public class Main {
         int lowerBound = 30;
         int upperBound = 80;
         int numToAsk = 30;
-        runSim(numOfProcessors, numOfProcesses, maxLoad, maxTime, lowerBound, upperBound, numToAsk);
+        //runSim(numOfProcessors, numOfProcesses, maxLoad, maxTime, lowerBound, upperBound, numToAsk);
 
         numOfProcessors = 50;
         numOfProcesses = 100000;
@@ -32,7 +32,7 @@ public class Main {
         lowerBound = 30;
         upperBound = 80;
         numToAsk = 30;
-        runSim(numOfProcessors, numOfProcesses, maxLoad, maxTime, lowerBound, upperBound, numToAsk);
+        //runSim(numOfProcessors, numOfProcesses, maxLoad, maxTime, lowerBound, upperBound, numToAsk);
 
         numOfProcessors = 50;
         numOfProcesses = 100000;
@@ -41,7 +41,7 @@ public class Main {
         lowerBound = 30;
         upperBound = 80;
         numToAsk = 30;
-        runSim(numOfProcessors, numOfProcesses, maxLoad, maxTime, lowerBound, upperBound, numToAsk);
+        //runSim(numOfProcessors, numOfProcesses, maxLoad, maxTime, lowerBound, upperBound, numToAsk);
     }
 
     public static void runSim(int numOfProcessors, int numOfProcesses, int maxLoad, int maxTime, int lowerBound, int upperBound, int numToAsk) {
@@ -53,9 +53,9 @@ public class Main {
         Controller s2 = new Strategy2(processors, processes, upperBound, numToAsk);
         Controller s3 = new Strategy3(processors, processes, upperBound, numToAsk, lowerBound);
 
-        s1.run();
-        s2.run();
-        s3.run();
+        s1.run(maxTime);
+        s2.run(maxTime);
+        s3.run(maxTime);
         System.out.println();
     }
 }

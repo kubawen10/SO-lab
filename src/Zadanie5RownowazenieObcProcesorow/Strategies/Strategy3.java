@@ -15,7 +15,7 @@ public class Strategy3 extends Controller {
     }
 
     @Override
-    public void run() {
+    public void run(int maxT) {
         reset();
 
         while (!done()) {
@@ -52,7 +52,7 @@ public class Strategy3 extends Controller {
                     }
                 }
             }
-            statCreation();
+            statCreation(maxT);
 
             //serving processes
             serveProcesses();

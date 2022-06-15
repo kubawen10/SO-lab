@@ -12,7 +12,7 @@ public class Strategy1 extends Controller {
     }
 
     @Override
-    public void run() {
+    public void run(int maxT) {
         reset();
 
         while (!done()) {
@@ -34,7 +34,7 @@ public class Strategy1 extends Controller {
 
                 curProcessor.addProcess(addNow);
             }
-            statCreation();
+            statCreation(maxT);
 
             //printCurServed();
 
